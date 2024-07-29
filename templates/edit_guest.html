@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Guest
+{% endblock %}
+
+{% block main %}
+    <!-- header -->
+    <h1>Edit Guest</h1>
+
+    <!-- form for new room -->
+     <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="/edit_guest?guestid={{ guest['guestID'] }}" method="post">
+                    <!-- hidden int input with guest['guestID'] as roomid-->
+                    <input type="hidden" name="guestid" value="{{ guest['guestID'] }}">
+                    <div class="mb-3 row">
+                        <label for="firstName" class="col-sm-2 col-form-label">First Name *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="firstName" name="firstName" type="text" placeholder="Enter First Name" value="{{ guest['firstName'] }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="lastName" class="col-sm-2 col-form-label">Last Name *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="lastName" name="lastName" type="text" placeholder="Enter Last Name" value="{{ guest['lastName'] }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="dateOfBirth" class="col-sm-2 col-form-label">Date of Birth *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="dateOfBirth" name="dateOfBirth" type="date" value="{{ guest['dateOfBirth'] }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="address" class="col-sm-2 col-form-label">Address</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="address" name="address" type="text" placeholder="Enter Address" value="{{ guest['address'] }}">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="country" class="col-sm-2 col-form-label">Country *</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="country" name="country" required>
+                                <option value="" disabled selected>Select a Country</option>
+                                {% for country in countires %}
+                                    <option value="{{ country['num_code'] }}" {% if country['num_code'] == guest['countryID'] %} selected {% endif %}>{{ country['en_short_name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="phone" name="phone" type="text" placeholder="Enter Phone Number" value="{{ guest['phone'] }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="email" class="col-sm-2 col-form-label">Email *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="email" name="email" type="email" placeholder="Enter Email" value="{{ guest['email'] }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="idType" class="col-sm-2 col-form-label">ID Type *</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="idType" name="idType" required>
+                                <option value="" disabled selected>Select an ID Type</option>
+                                {% for idType in idTypes %}
+                                    <option value="{{ idType['idID'] }}" {% if idType['idID'] == guest['idType'] %} selected {% endif %}>{{ idType['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="idNumber" class="col-sm-2 col-form-label">ID Number *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="idNumber" name="idNumber" type="text" placeholder="Enter ID Number" value="{{ guest['idNumber'] }}" required>
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Edit Guest</button>
+                        <a class="btn btn-secondary" type="button" href="/guests">Cancel</a> 
+                    </div>
+                    <br>
+                    <div>
+                        <a class="btn btn-outline-danger" type="button" onclick="myFunction()">Delete Guest</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function myFunction() {
+            
+            if (confirm("**WARNING**\nAre you sure you want to delete this guest?\nThis action cannot be undone.")) {
+                window.location.href = "/delete_guest?guestid={{ guest['guestID'] }}";
+            } else {
+                window.location.href = "/guests";
+            }
+        }
+    </script> 
+{% endblock %}
+

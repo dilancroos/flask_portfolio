@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    New Booking
+{% endblock %}
+
+{% block main %}
+<h1>New Booking</h1>
+
+<!-- form for new booking -->
+ <div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form action="/new_booking" method="post">
+                <div class="mb-3 row">
+                    <label for="guestID" class="col-sm-2 col-form-label">Guest</label>
+                    <div class="col-sm-10">
+                    <select class="form-select" id="guestID" name="guestID" autofocus required>
+                        <option value="" disabled selected>Select a Guest</option>
+                        {% for guest in guests %}
+                            <option value="{{ guest['guestID'] }}" {% if guest['guestID'] == gGetID %} selected {% endif %}> {{ guest['firstName'] }} {{ guest['lastName'] }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="roomID" class="col-sm-2 col-form-label">Room</label>
+                    <div class="col-sm-10">
+                        <select class="form-select" id="roomID" name="roomID" required>
+                            <option value="" disabled selected>Select a Room</option>
+                            {% for room in rooms %}
+                            <option value="{{ room['roomID'] }}">{{ room['roomNo'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="checkIn" class="col-sm-2 col-form-label">Check In</label>
+                    <div class="col-sm-10">
+                        <input class="form-control w-auto" id="checkIn" name="checkIn" type="date" required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="checkOut" class="col-sm-2 col-form-label">Check Out</label>
+                    <div class="col-sm-10">
+                        <input class="form-control w-auto" id="checkOut" name="checkOut" type="date" required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="mealPlan" class="col-sm-2 col-form-label">Meal Plan</label>
+                    <div class="col-sm-10">
+                        <select class="form-select" id="mealPlan" name="mealPlan" required>
+                            <option value="" disabled selected>Select a Meal Plan</option>
+                            {% for meal in mealPlans %}
+                            <option value="{{ meal['mealPlanID'] }}">{{ meal['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <button class="btn btn-primary" type="submit">New Booking</button>
+                    <a href="/bookings" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

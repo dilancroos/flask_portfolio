@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add New Guest
+{% endblock %}
+
+{% block main %}
+    <!-- header -->
+    <h1>Add New Guest</h1>
+
+    <!-- form for new room -->
+     <div class="container">
+        <div class="row">
+            <div class="col-md-7 offset-md-3">
+                <form action="/new_guest" method="post">
+                    <div class="mb-3 row">
+                        <label for="firstName" class="col-sm-2 col-form-label">First Name *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="firstName" name="firstName" type="text" placeholder="Enter First Name" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="lastName" class="col-sm-2 col-form-label">Last Name *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="lastName" name="lastName" type="text" placeholder="Enter Last Name" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="dateOfBirth" class="col-sm-2 col-form-label">Date of Birth *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="dateOfBirth" name="dateOfBirth" type="date" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="address" class="col-sm-2 col-form-label">Address</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="address" name="address" type="text" placeholder="Enter Address">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="country" class="col-sm-2 col-form-label">Country *</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="country" name="country" required>
+                                <option value="" disabled selected>Select a Country</option>
+                                {% for country in countires %}
+                                    <option value="{{ country['num_code'] }}">{{ country['en_short_name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="phone" name="phone" type="text" placeholder="Enter Phone Number" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="email" class="col-sm-2 col-form-label">Email *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="email" name="email" type="email" placeholder="Enter Email" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="idType" class="col-sm-2 col-form-label">ID Type *</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="idType" name="idType" required>
+                                <option value="" disabled selected>Select an ID Type</option>
+                                {% for idType in idTypes %}
+                                    <option value="{{ idType['idID'] }}">{{ idType['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="idNumber" class="col-sm-2 col-form-label">ID Number *</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="idNumber" name="idNumber" type="text" placeholder="Enter ID Number" required>
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Add Guest</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

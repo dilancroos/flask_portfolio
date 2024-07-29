@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Room
+{% endblock %}
+
+{% block main %}
+    <!-- header -->
+    <h1>Edit Room</h1>
+
+    <!-- form for new room -->
+     <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="/edit_room?roomid={{ room['roomID'] }}" method="post">
+                    <!-- hidden int input with room['roomID'] as roomid-->
+                    <input type="hidden" name="roomid" value="{{ room['roomID'] }}">
+                    <div class="mb-3 row">
+                        <label for="hotelID" class="col-sm-2 col-form-label">Hotel</label>
+                        <div class="col-sm-10">
+                        <select class="form-select" id="hotelID" name="hotelID" autofocus>
+                            <option value="" disabled selected>Select a Hotel</option>
+                            {% for hotel in hotels %}
+                                <option value="{{ hotel['hotelID'] }}" {% if hotel['hotelID'] == room['hotelID'] %} selected {% endif %}> {{ hotel['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="roomTypeID" class="col-sm-2 col-form-label">Room Type</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="roomTypeID" name="roomTypeID">
+                                <option value="" disabled selected>Select a Room Type</option>
+                                {% for roomType in roomTypes %}
+                                <option value="{{ roomType['typeID'] }}" {% if roomType['typeID'] == room['typeID'] %} selected {% endif %}>{{ roomType['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="roomNo" class="col-sm-2 col-form-label">Room No.</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="roomNo" name="roomNo" type="text" value="{{ room['roomNo'] }}">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="status" class="col-sm-2 col-form-label">Status</label>
+                        <div class="col-sm-10">    
+                            <select class="form-select" id="statusID" name="statusID">
+                                <option value="" disabled selected>Select the Status</option>
+                                {% for status in allStatus %}
+                                    <option value="{{ status['statusID'] }}" {% if status['statusID'] == room['statusID'] %} selected {% endif %}>{{ status['status'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Edit Room</button>
+                        <a href="/rooms" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

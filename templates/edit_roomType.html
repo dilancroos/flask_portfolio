@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Room Type
+{% endblock %}
+
+{% block main %}
+    <!-- header -->
+    <h1>Edit Room Type</h1>
+
+    <!-- form for new room -->
+     <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="edit_roomType" method="post">
+                    <input type="hidden" name="roomtypeid" value="{{ roomType['roomTypeID'] }}">
+                    <div class="mb-3 row">
+                        <label for="name" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name" value="{{ roomType['name'] }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="description" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="description" name="description" value="{{ roomType['description'] }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="capacity" class="col-sm-2 col-form-label">Capacity</label>
+                        <div class="col-sm-5">
+                            <input type="number" class="form-control" id="capacity" name="capacity" value="{{ roomType['capacity'] }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="status" class="col-sm-2 col-form-label">Status</label>
+                        <div class="col-sm-5">
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="" disabled selected>Select a Status</option>
+                                {% for status in allStatus %}
+                                    <option value="{{ status['statusID'] }}" {% if status['statusID'] == roomType['statusID'] %} selected {% endif %}>{{ status['status'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a href="/roomTypes" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

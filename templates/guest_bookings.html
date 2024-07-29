@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Guest Bookings
+{% endblock %}
+
+{% block main %}
+<h1>Guests Previous Bookings</h1>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Room No</th>
+            <th>Check In Date</th>
+            <th>Check Out Date</th>
+            <th>Nights</th>
+            <th>Meal Plan</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+            <tr>
+                <td>{{ booking["bookingID"] }}</td>
+                <td>{{ booking["roomNo"] }}</td>
+                <td>{{ booking["checkinDate"] }}</td>
+                <td>{{ booking["checkoutDate"] }}</td>
+                <td>{{ booking["nights"] }}</td>
+                <td>{{ booking["mealPlanName"] }}</td>
+                <td>{{ booking["status"] }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<table>
+    <tbody>
+        <tr>
+            <td>Total Nights:</td>
+            <td>{{ totalNights }}</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Booking
+{% endblock %}
+
+{% block main %}
+    <!-- header -->
+    <h1>Edit Booking</h1>
+
+    <!-- form for new room -->
+     <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="/edit_booking" method="post">
+                    <input type="hidden" name="bookingid" value="{{ booking['bookingID'] }}">
+                    <div class="mb-3 row">
+                        <label for="guestID" class="col-sm-2 col-form-label">Guest</label>
+                        <div class="col-sm-10">
+                        <select class="form-select" id="guestID" name="guestID" autofocus>
+                            <option value="" disabled selected>Select a Guest</option>
+                            {% for guest in guests %}
+                                <option value="{{ guest['guestID'] }}" {% if guest['guestID'] == booking['guestID'] %} selected {% endif %}> {{ guest['firstName'] }} {{ guest['lastName'] }}</option>
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="roomID" class="col-sm-2 col-form-label">Room</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="roomID" name="roomID">
+                                <option value="" disabled selected>Select a Room</option>
+                                {% for room in rooms %}
+                                    <option value="{{ room['roomID'] }}" {% if room['roomID'] == booking['roomID'] %} selected {% endif %}>{{ room['roomNo'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="checkIn" class="col-sm-2 col-form-label">Check In</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="checkIn" name="checkIn" type="date" value="{{booking['checkinDate']}}">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="checkOut" class="col-sm-2 col-form-label">Check Out</label>
+                        <div class="col-sm-10">
+                            <input class="form-control w-auto" id="checkOut" name="checkOut" type="date" value="{{booking['checkoutDate']}}">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="mealPlan" class="col-sm-2 col-form-label">Meal Plan</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="mealPlan" name="mealPlan">
+                                <option value="" disabled selected>Select a Meal Plan</option>
+                                {% for meal in mealPlans %}
+                                    <option value="{{ meal['mealPlanID'] }}" {% if meal['mealPlanID'] == booking['mealPlanID'] %} selected {% endif %}>{{ meal['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="status" class="col-sm-2 col-form-label">Status</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="status" name="status">
+                                <option value="" disabled selected>Select a Status</option>
+                                {% for status in allStatus %}
+                                    <option value="{{ status['statusID'] }}" {% if status['statusID'] == booking['status'] %} selected {% endif %}>{{ status['status'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="/bookings" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

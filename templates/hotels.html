@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Hotels
+{% endblock %}
+
+{% block main %}
+<h1>Hotels</h1>
+
+<!-- button for new hotel -->
+<a href="/new_hotel" class="btn btn-primary">New Hotel</a>
+<br>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Check-in Time</th>
+            <th>Check-out Time</th>
+            <th>Status</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for hotel in hotels %}
+            <tr>
+                <td>{{ hotel["name"] }}</td>
+                <td>{{ hotel["address"] }}</td>
+                <td>{{ hotel["phone"] }}</td>
+                <td>{{ hotel["email"] }}</td>
+                <td>{{ hotel["checkinTime"] }}</td>
+                <td>{{ hotel["checkoutTime"] }}</td>
+                <td>{{ hotel["status"] }}</td>
+                <td><a href="/edit_hotel?hotelid={{ hotel['hotelID'] }}">Edit</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

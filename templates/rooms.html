@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Rooms
+{% endblock %}
+
+{% block main %}
+    <!-- header -->
+    <h1>Rooms</h1>
+
+    <!-- button for new room -->
+    <a href="/new_room" class="btn btn-primary">New Room</a>
+    <br>
+    <br>
+
+    <!-- Rooms table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Hotel Name</th>
+                <th>Room Type</th>
+                <th>Room No.</th>
+                <th>Status</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+                <tr>
+                    <td>{{ room["hotelName"] }}</td>
+                    <td>{{ room["roomTypeName"] }}</td>
+                    <td>{{ room["roomNo"] }}</td>
+                    <td>{{ room["status"] }}</td>
+                    <!-- send roomID as get request -->
+                    <td><a href="/edit_room?roomid={{ room['roomID'] }}">Edit</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

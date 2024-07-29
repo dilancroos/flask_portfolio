@@ -1,0 +1,133 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add New Staff Member
+{% endblock %}
+
+{% block main %}
+    <!-- header -->
+    <h1>Add New Staff Member</h1>
+
+    <!-- form for new room -->
+     <div class="container">
+        <div class="row">
+            <div class="col-md-7 offset-md-3">
+                <form action="/new_staff" method="post">
+                    <div class="mb-3 row">
+                        <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="will be used as username" required> 
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="position" class="col-sm-2 col-form-label">Position</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="position" name="position" required>
+                                <option value="" disabled selected>Select a Position</option>
+                                {% for position in positions %}
+                                    <option value="{{ position['id'] }}">{{ position['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="dateOfBirth" class="col-sm-2 col-form-label">Date of Birth</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth"  required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="hotel" class="col-sm-2 col-form-label">Hotel</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="hotel" name="hotel" required>
+                                <option value="" disabled selected>Select a Hotel</option>
+                                {% for hotel in hotels %}
+                                    <option value="{{ hotel['hotelID'] }}">{{ hotel['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="phone" name="phone" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="password" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="confirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="status" class="col-sm-2 col-form-label">Status</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="" disabled selected>Select a Status</option>
+                                {% for status in allStatus %}
+                                    <option value="{{ status['statusID'] }}">{{ status['status'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Add Staff</button>
+                        <a href="/staff" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        // check if password and confirm password match
+        document.querySelector('form').onsubmit = function() {
+            if (document.querySelector('#password').value != document.querySelector('#confirmPassword').value) {
+                alert('Passwords do not match');
+                // Clear the password fields
+                document.querySelector('#password').value = '';
+                document.querySelector('#confirmPassword').value = '';
+                return false;
+            }
+        }
+        // Function to set the max attribute
+        function setDate() {
+            const dateInput = document.getElementById("dateOfBirth");
+
+            // Get the current date
+            const today = new Date();
+            
+            // Format the date to YYYY-MM-DD
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const dd = String(today.getDate()).padStart(2, '0');
+
+            const maxDate = `${yyyy - 18}-${mm}-${dd}`;
+            const minDate = `${yyyy - 100}-${mm}-${dd}`;
+
+            // Set the max and min attribute
+            dateInput.setAttribute("max", maxDate);
+            dateInput.setAttribute("min", minDate);
+        }
+
+        // Call the function to set the max date when the page loads
+        window.onload = setDate;
+    </script>
+{% endblock %}

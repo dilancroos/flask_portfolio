@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Bookings
+{% endblock %}
+
+{% block main %}
+    <h1>Bookings</h1>
+
+    <!-- button for new booking -->
+    <a href="/new_booking" class="btn btn-primary">New Booking</a>
+    <br>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Guests Name</th>
+                <th>Room No</th>
+                <th>Check In Date</th>
+                <th>Check Out Date</th>
+                <th>mealPlan</th>
+                <th>Status</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking["bookingID"] }}</td>
+                    <td>{{ booking["firstName"] }} {{ booking["lastName"] }}</td>
+                    <td>{{ booking["roomNo"] }}</td>
+                    <td>{{ booking["checkinDate"] }}</td>
+                    <td>{{ booking["checkoutDate"] }}</td>
+                    <td>{{ booking["mealPlanName"] }}</td>
+                    <td>{{ booking["status"] }}</td>
+                    <td>
+                        <form action="/edit_booking" method="get">
+                            <input type="hidden" name="bookingid" value="{{ booking['bookingID'] }}">
+                            <button class="btn btn-link" type="submit">Edit</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

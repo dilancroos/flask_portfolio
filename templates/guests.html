@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Guests
+{% endblock %}
+
+{% block main %}
+<h1>Guests details</h1>
+
+<!-- button for new guest -->
+<a href="/new_guest" class="btn btn-primary">New Guest</a>
+<br>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>DOB</th>
+            <th>ID type</th>
+            <th>ID Number</th>
+            <th>Address</th>
+            <th>Country</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>New Booking</th>
+            <th>Prev Bookings</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for guest in guests %}
+            <tr>
+                <td>{{ guest["firstName"] }} {{ guest["lastName"]}}</td>
+                <td>{{ guest["dateOfBirth"] }}</td>
+                <td>{{ guest["idTypeName"] }}</td>
+                <td>{{ guest["idNumber"] }}</td>
+                <td>{{ guest["address"] }}</td>
+                <td>{{ guest["country"] }}</td>
+                <td>{{ guest["phone"] }}</td>
+                <td>{{ guest["email"] }}</td>
+                <td>
+                    <form action="/new_booking" method="get">
+                        <input type="hidden" name="guestid" value="{{ guest['guestID'] }}">
+                        <button class="btn btn-primary" type="submit">New Booking</button>
+                    </form>
+                </td>
+                <td><a href="/guest_bookings?guestid={{ guest['guestID'] }}">View</a></td>
+                <td><a href="/edit_guest?guestid={{ guest['guestID'] }}">Edit</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>   
+{% endblock %}
