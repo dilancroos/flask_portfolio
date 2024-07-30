@@ -369,7 +369,7 @@ def new_booking():
             "SELECT * FROM guests WHERE guestID = ?", guestID)
     else:
         guests = db.execute(
-            "SELECT * FROM guests")
+            "SELECT * FROM guests WHERE guestID >= 1")  # get all guests with guestID >= 1
 
     rooms = db.execute(
         "SELECT rooms.roomID, hotels.name as hotelName , roomTypes.name as roomTypeName, rooms.roomNo, status.status FROM rooms INNER JOIN hotels ON rooms.hotelID = hotels.hotelID INNER JOIN roomTypes ON rooms.typeID = roomTypes.typeID INNER JOIN status ON rooms.statusID = status.statusID WHERE hotels.hotelID = ? ORDER BY roomTypeName ASC, roomNo ASC", session["hotelID"])
@@ -487,7 +487,7 @@ def edit_hotel():
 
 
 @app.route("/new_hotel", methods=["GET", "POST"])
-@manager_required
+@admin_required
 def new_hotel():
     """Add new hotel"""
 
@@ -515,7 +515,7 @@ def new_hotel():
 
 
 @app.route("/edit_roomType", methods=["GET", "POST"])
-@manager_required
+@admin_required
 def edit_roomType():
     """Edit room type"""
 
@@ -658,6 +658,7 @@ def login():
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["staffID"]
+        session["username"] = rows[0]["firstName"]
         session["manager"] = rows[0]["manager"]
         session["hotelID"] = rows[0]["hotelID"]
 
@@ -678,44 +679,6 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")
-
-
-@ app.route("/register", methods=["GET", "POST"])
-def register():
-    """Register user"""
-    if request.method == "POST":
-
-        # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?",
-                          request.form.get("username"))
-
-        # Ensure username was submitted
-        if not request.form.get("username"):
-            return apology("must provide username", 400)
-
-        # Ensure password was submitted
-        elif not request.form.get("password"):
-            return apology("must provide password", 400)
-
-        # Ensure confirm password was submitted
-        elif not request.form.get("confirmation"):
-            return apology("must provide password conformation", 400)
-
-        # Check username available or not
-        if len(rows) == 1:
-            return apology("Username not available", 400)
-        else:
-            if (request.form.get("password") == request.form.get("confirmation")):
-
-                db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get(
-                    "username"), generate_password_hash(request.form.get("password"), method='pbkdf2', salt_length=16))
-
-                return redirect("/")
-
-            else:
-                return apology("Passwords dont match", 400)
-
-    return render_template("register.html")
 
 
 @ app.route("/changepw", methods=["GET", "POST"])
@@ -783,4 +746,6 @@ https://github.com/othneildrew/Best-README-Template
 
 I aslo used GitHub Copilot for some of the code snippets
 and ChatGPT for some debugging and code suggestions
+
+If I have missed any resources, please let me know and I will add them to the list
 """

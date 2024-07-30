@@ -10,3 +10,5 @@ __pycache__/*
 */.pytest_cache/*
 */.coverage
 .DS_Store
+flask_session
+flask_session/*

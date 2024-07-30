@@ -40,6 +40,7 @@
                             <li class="nav-item"><a class="nav-link" href="/staff">Staff</a></li>
                         </ul>
                         <ul class="navbar-nav ms-auto mt-2">
+                            <li class="nav-item"><a class="nav-link">Hello, {{ session["username"] }}!</a></li>
                             <li class="nav-item"><a class="nav-link" href="/changepw">Change Password</a></li>
                             <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                         </ul>
@@ -64,12 +65,16 @@
             {% block main %}{% endblock %}
         </main>
 
-        <footer class="mb-5">
-            <div class="container text-center">
-                <p>&copy; 2024 TWR Hotels</p>
-            </div>
-        </footer>
+        
 
     </body>
+    <footer class="mb-5">
+        <div class="container text-center">
+            <p id="copy"></p>
+        </div>
+    </footer>
+    <script>
+        document.getElementById("copy").innerHTML = "&copy; " + new Date().getFullYear() + " TWR Hotels by ADCW";
+    </script>
 
 </html>
