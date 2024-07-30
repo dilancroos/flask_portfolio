@@ -30,10 +30,10 @@
                     <td>{{ booking["bookingID"] }}</td>
                     <td>{{ booking["firstName"] }} {{ booking["lastName"] }}</td>
                     <td>{{ booking["roomNo"] }}</td>
-                    <td>{{ booking["checkinDate"] }}</td>
+                    <td>{{ booking["checkInDate"] }}</td>
                     <td>{{ booking["checkoutDate"] }}</td>
                     <td>{{ booking["mealPlanName"] }}</td>
-                    <td>{{ booking["status"] }}</td>
+                    <td>{{ booking["statusID"] }}</td>
                     <td>
                         <form action="/edit_booking" method="get">
                             <input type="hidden" name="bookingid" value="{{ booking['bookingID'] }}">
