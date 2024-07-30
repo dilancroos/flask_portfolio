@@ -204,6 +204,11 @@ def new_guest():
         idType = request.form.get("idType")
         idNumber = request.form.get("idNumber")
 
+        # if less than 18 years old
+        if date.today().year - int(dateOfBirth.split("-")[0]) < 18:
+            flash("Guest should be at least 18 years old")
+            return redirect("/new_guest")
+
         if db.execute("INSERT INTO guests (firstName, lastName, dateOfBirth, address, countryID, phone, email, idType, idNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                       firstName, lastName, dateOfBirth, address, country, phone, email, idType, idNumber):
             flash("Guest added successfully")
@@ -237,7 +242,12 @@ def edit_guest():
         idType = request.form.get("idType")
         idNumber = request.form.get("idNumber")
 
-        # Update guest information using parameterized query
+        # if less than 18 years old
+        if date.today().year - int(dateOfBirth.split("-")[0]) < 18:
+            flash("Guest should be at least 18 years old")
+            return redirect("/edit_guest")
+
+        # Update guest information
         if db.execute("""UPDATE guests SET firstName = ?, lastName = ?, dateOfBirth = ?, address = ?, countryID = ?, phone = ?, email = ?, idType = ?, idNumber = ? WHERE guestID = ?""",
                       firstName, lastName, dateOfBirth, address, countryID, phone, email, idType, idNumber, guestID):
 
@@ -395,7 +405,7 @@ def edit_booking():
         checkInDate = request.form.get("checkIn")
         checkOutDate = request.form.get("checkOut")
         mealPlanID = request.form.get("mealPlan")
-        statusID = request.form.get("statusID")
+        statusID = request.form.get("status")
 
         checkInDateV = date(int(checkInDate.split("-")[0]), int(
             checkInDate.split("-")[1]), int(checkInDate.split("-")[2]))
@@ -451,7 +461,7 @@ def edit_booking():
 
 
 @app.route("/edit_hotel", methods=["GET", "POST"])
-@manager_required
+@admin_required
 def edit_hotel():
     """Edit hotel"""
 
