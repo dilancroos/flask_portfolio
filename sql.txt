@@ -1,0 +1,21 @@
+CREATE TABLE identityDocs (idID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS "status" (statusID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, status TEXT NOT NULL);
+CREATE TABLE countries (num_code INTEGER NOT NULL, alpha_2_code TEXT, alpha_3_code TEXT, en_short_name TEXT, nationality TEXT,  PRIMARY KEY (`num_code`));
+CREATE TABLE position (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS "hotels" (hotelID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , name TEXT NOT NULL, address TEXT, phone INTEGER NOT NULL, email TEXT NOT NULL, checkinTime TIME NOT NULL, checkoutTime TIME NOT NULL, statusID INTEGER NOT NULL, FOREIGN KEY (statusID) REFERENCES status(statusID));
+CREATE TABLE IF NOT EXISTS "roomTypes" (typeID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,name TEXT NOT NULL, description TEXT, capacity INTEGER NOT NULL, statusID INTEGER NOT NULL, FOREIGN KEY (statusID) REFERENCES status(statusID));
+CREATE TABLE IF NOT EXISTS "staff_members" (staffID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, hotelID INTEGER NOT NULL, firstName TEXT NOT NULL, lastName TEXT NOT NULL, positionID INTEGER NOT NULL DEFAULT 1,password TEXT NOT NULL,  dateOfBirth DATE NOT NULL, phone INTEGER NOT NULL, email TEXT NOT NULL, statusID INTEGER NOT NULL DEFAULT 1, FOREIGN KEY (hotelID) REFERENCES hotels(hotelID), FOREIGN KEY (positionID) REFERENCES position(id), FOREIGN KEY (statusID) REFERENCES status(statusID));
+CREATE TABLE IF NOT EXISTS "mealPlans" (mealPlanID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, statusID INTEGER NOT NULL, FOREIGN KEY (statusID) REFERENCES status(statusID));
+CREATE TABLE IF NOT EXISTS "guests" (guestID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, firstName TEXT NOT NULL, lastName TEXT NOT NULL, dateOfBirth DATE NOT NULL, address TEXT, countryID INTEGER NOT NULL, phone INTEGER NOT NULL,  email TEXT NOT NULL, idType INTEGER NOT NULL, idNumber INTEGER NOT NULL, FOREIGN KEY (idType) REFERENCES identityDocs(idID), FOREIGN KEY (countryID) REFERENCES countries(num_code));
+CREATE TABLE IF NOT EXISTS "rooms" (roomID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, hotelID INTEGER NOT NULL, typeID INTEGER NOT NULL, statusID INTEGER NOT NULL, roomNo TEXT NOT NULL, FOREIGN KEY (hotelID) REFERENCES Hotels(hotelID),  FOREIGN KEY (typeID) REFERENCES "roomTypes"(typeID), FOREIGN KEY (statusID) REFERENCES status(statusID));
+CREATE TABLE IF NOT EXISTS "bookings" (bookingID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, guestID INTEGER NOT NULL, roomID INTEGER NOT NULL, checkInDate DATE NOT NULL, checkOutDate DATE NOT NULL, mealPlanID INTEGER NOT NULL, statusID INTEGER, FOREIGN KEY (guestID) REFERENCES guests(guestID), FOREIGN KEY (roomID) REFERENCES rooms(roomID), FOREIGN KEY (mealPlanID) REFERENCES mealPlans(mealPlanID), FOREIGN KEY (statusID) REFERENCES status(statusID));
+
+Seeding data:
+
+Hotels:
+INSERT INTO hotels (name, address, phone, email, checkinTime, checkoutTime, statusID) VALUES ("Hotel M", "1, Road, M", "123456789", "hotelm@hotelm.com","14:00","11:00",1)
+INSERT INTO hotels (name, address, phone, email, checkinTime, checkoutTime, statusID) VALUES ("Hotel N", "2, Road, N", "987654321", "hoteln@hoteln.com","14:00","11:00",1)
+
+Admins:
+INSERT INTO staff_members (hotelID, firstName, lastName, positionID, password,  dateOfBirth, phone, email, statusID) VALUES (1, 'AdminM', 'admin', 3, "pbkdf2:sha256:600000$VHtHbYhExb9QgGCC$522080c9d349470462045aa384d28cfed362a1755760b3d2a2aa6d02a48c9040", '1990-01-01', 123456789, admin@admin.com, 1);
+INSERT INTO staff_members (hotelID, firstName, lastName, positionID, password,  dateOfBirth, phone, email, statusID) VALUES (2, 'AdminN', 'admin', 3, "pbkdf2:sha256:600000$VHtHbYhExb9QgGCC$522080c9d349470462045aa384d28cfed362a1755760b3d2a2aa6d02a48c9040", '1990-01-01', 123456789, admin@admin.com, 1);
