@@ -54,7 +54,7 @@ def manager_required(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if session.get("manager") < 2:
+        if session.get("positionID") < 2:
             return apology("You are not authorized to access this page", 403)
         return f(*args, **kwargs)
     return decorated_function
@@ -64,7 +64,7 @@ def admin_required(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if session.get("manager") < 3:
+        if session.get("positionID") < 3:
             return apology("You are not authorized to access this page", 403)
         return f(*args, **kwargs)
     return decorated_function
