@@ -65,7 +65,7 @@
                             <select class="form-select" id="status" name="status">
                                 <option value="" disabled selected>Select a Status</option>
                                 {% for status in allStatus %}
-                                    <option value="{{ status['statusID'] }}" {% if status['statusID'] == booking['status'] %} selected {% endif %}>{{ status['status'] }}</option>
+                                    <option value="{{ status['statusID'] }}" {% if status['statusID'] == booking['statusID'] %} selected {% endif %}>{{ status['status'] }}</option>
                                 {% endfor %}
                             </select>
                         </div>
