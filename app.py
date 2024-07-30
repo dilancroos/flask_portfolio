@@ -62,7 +62,7 @@ def bookings():
     """Show bookings"""
 
     bookings = db.execute(
-        "SELECT bookings.*, guests.firstName, guests.lastName, rooms.roomNo, mealPlans.name as mealPlanName, status.status FROM bookings INNER JOIN rooms ON bookings.roomID = rooms.roomID INNER JOIN guests ON bookings.guestID = guests.guestID INNER JOIN mealPlans ON bookings.mealPlanID = mealPlans.mealPlanID INNER JOIN status ON bookings.status = status.statusID WHERE rooms.hotelID = ? ORDER BY checkinDate, checkoutDate", session["hotelID"])
+        "SELECT bookings.*, guests.firstName, guests.lastName, rooms.roomNo, mealPlans.name as mealPlanName, status.status FROM bookings INNER JOIN rooms ON bookings.roomID = rooms.roomID INNER JOIN guests ON bookings.guestID = guests.guestID INNER JOIN mealPlans ON bookings.mealPlanID = mealPlans.mealPlanID INNER JOIN status ON bookings.statusID = status.statusID WHERE rooms.hotelID = ? ORDER BY checkInDate, checkOutDate", session["hotelID"])
 
     return render_template("bookings.html", bookings=bookings)
 
@@ -106,7 +106,7 @@ def staff():
     """Show staff"""
 
     staff = db.execute(
-        "SELECT staff_members.*, hotels.name as hotelName, status.status, position.name as position FROM staff_members INNER JOIN hotels ON staff_members.hotelID = hotels.hotelID INNER JOIN status ON staff_members.status = status.statusID INNER JOIN position ON staff_members.manager = position.id ORDER BY manager DESC, firstName, lastName")
+        "SELECT staff_members.*, hotels.name as hotelName, status.status, position.name as position FROM staff_members INNER JOIN hotels ON staff_members.hotelID = hotels.hotelID INNER JOIN status ON staff_members.statusID = status.statusID INNER JOIN position ON staff_members.positionID = position.id ORDER BY positionID DESC, firstName, lastName")
 
     return render_template("staff.html", staff=staff)
 
@@ -270,18 +270,18 @@ def guest_bookings():
         "SELECT * FROM guests WHERE guestID = ?", guestID)
 
     bookings = db.execute(
-        "SELECT bookings.*, rooms.roomNo, mealPlans.name as mealPlanName, status.status FROM bookings INNER JOIN rooms ON bookings.roomID = rooms.roomID INNER JOIN mealPlans ON bookings.mealPlanID = mealPlans.mealPlanID INNER JOIN status ON bookings.status = status.statusID WHERE guestID = ? ORDER BY checkinDate", guestID)
+        "SELECT bookings.*, rooms.roomNo, mealPlans.name as mealPlanName, status.status FROM bookings INNER JOIN rooms ON bookings.roomID = rooms.roomID INNER JOIN mealPlans ON bookings.mealPlanID = mealPlans.mealPlanID INNER JOIN status ON bookings.statusID = status.statusID WHERE guestID = ? ORDER BY checkInDate", guestID)
 
     # send the number of nights for each booking handling "ValueError: invalid literal for int() with base 10: '2024-07-25'" error
     totalNights = 0
     for booking in bookings:
         try:
             # get
-            checkinDate = date(int(booking["checkinDate"].split("-")[0]), int(
-                booking["checkinDate"].split("-")[1]), int(booking["checkinDate"].split("-")[2]))
-            checkoutDate = date(int(booking["checkoutDate"].split("-")[0]), int(
-                booking["checkoutDate"].split("-")[1]), int(booking["checkoutDate"].split("-")[2]))
-            booking["nights"] = (checkoutDate - checkinDate).days
+            checkInDate = date(int(booking["checkInDate"].split("-")[0]), int(
+                booking["checkInDate"].split("-")[1]), int(booking["checkInDate"].split("-")[2]))
+            checkOutDate = date(int(booking["checkOutDate"].split("-")[0]), int(
+                booking["checkOutDate"].split("-")[1]), int(booking["checkOutDate"].split("-")[2]))
+            booking["nights"] = (checkOutDate - checkInDate).days
             totalNights += booking["nights"]
         except ValueError:
             booking["nights"] = "oops"
@@ -323,39 +323,39 @@ def new_booking():
     if request.method == "POST":
         guestID = request.form.get("guestID")
         roomID = request.form.get("roomID")
-        checkinDate = request.form.get("checkIn")
-        checkoutDate = request.form.get("checkOut")
+        checkInDate = request.form.get("checkIn")
+        checkOutDate = request.form.get("checkOut")
         mealPlanID = request.form.get("mealPlan")
 
-        checkinDateV = date(int(checkinDate.split("-")[0]), int(
-            checkinDate.split("-")[1]), int(checkinDate.split("-")[2]))
-        checkoutDateV = date(int(checkoutDate.split("-")[0]), int(
-            checkoutDate.split("-")[1]), int(checkoutDate.split("-")[2]))
+        checkInDateV = date(int(checkInDate.split("-")[0]), int(
+            checkInDate.split("-")[1]), int(checkInDate.split("-")[2]))
+        checkOutDateV = date(int(checkOutDate.split("-")[0]), int(
+            checkOutDate.split("-")[1]), int(checkOutDate.split("-")[2]))
 
         # Check if check-in date is before check-out date
-        if checkinDateV > checkoutDateV:
+        if checkInDateV > checkOutDateV:
             flash("Check-in date should be before check-out date")
             return redirect("/new_booking")
 
         # Check if room is available
-        room = db.execute("SELECT * FROM bookings WHERE roomID = ? AND ((checkinDate <= ? AND checkoutDate >= ?) OR (checkinDate <= ? AND checkoutDate >= ?) OR (checkinDate >= ? AND checkoutDate <= ?))",
-                          roomID, checkinDate, checkinDate, checkoutDate, checkoutDate, checkinDate, checkoutDate)
+        room = db.execute("SELECT * FROM bookings WHERE roomID = ? AND ((checkInDate <= ? AND checkOutDate >= ?) OR (checkInDate <= ? AND checkOutDate >= ?) OR (checkInDate >= ? AND checkOutDate <= ?))",
+                          roomID, checkInDate, checkInDate, checkOutDate, checkOutDate, checkInDate, checkOutDate)
         if room:
             flash("Room is not available for the selected dates")
             return redirect("/new_booking")
 
         # Check if check-in date is before today
-        if checkinDateV < date.today():
+        if checkInDateV < date.today():
             flash("Check-in date should be today or later")
             return redirect("/new_booking")
 
         # Check if check-in date is more than 1 year in the future
-        if checkinDateV > date.today().replace(year=date.today().year + 1):
+        if checkInDateV > date.today().replace(year=date.today().year + 1):
             flash("Check-in date should be within the next 1 year")
             return redirect("/new_booking")
 
-        if db.execute("INSERT INTO bookings (guestID, roomID, checkinDate, checkoutDate, mealPlanID, status) VALUES (?, ?, ?, ?, ?, ?)",
-                      guestID, roomID, checkinDate, checkoutDate, mealPlanID, 1):
+        if db.execute("INSERT INTO bookings (guestID, roomID, checkInDate, checkOutDate, mealPlanID, statusID) VALUES (?, ?, ?, ?, ?, ?)",
+                      guestID, roomID, checkInDate, checkOutDate, mealPlanID, 1):
             flash("Booking added successfully")
         else:
             flash("Booking add failed")
@@ -392,41 +392,41 @@ def edit_booking():
         bookingID = request.form.get("bookingid")
         guestID = request.form.get("guestID")
         roomID = request.form.get("roomID")
-        checkinDate = request.form.get("checkIn")
-        checkoutDate = request.form.get("checkOut")
+        checkInDate = request.form.get("checkIn")
+        checkOutDate = request.form.get("checkOut")
         mealPlanID = request.form.get("mealPlan")
-        status = request.form.get("status")
+        statusID = request.form.get("statusID")
 
-        checkinDateV = date(int(checkinDate.split("-")[0]), int(
-            checkinDate.split("-")[1]), int(checkinDate.split("-")[2]))
-        checkoutDateV = date(int(checkoutDate.split("-")[0]), int(
-            checkoutDate.split("-")[1]), int(checkoutDate.split("-")[2]))
+        checkInDateV = date(int(checkInDate.split("-")[0]), int(
+            checkInDate.split("-")[1]), int(checkInDate.split("-")[2]))
+        checkOutDateV = date(int(checkOutDate.split("-")[0]), int(
+            checkOutDate.split("-")[1]), int(checkOutDate.split("-")[2]))
 
         # Check if check-in date is before check-out date
-        if checkinDateV > checkoutDateV:
+        if checkInDateV > checkOutDateV:
             flash("Check-in date should be before check-out date")
             return redirect("/edit_booking")
 
         # Check if room is available
-        room = db.execute("SELECT * FROM bookings WHERE roomID = ? AND ((checkinDate <= ? AND checkoutDate >= ?) OR (checkinDate <= ? AND checkoutDate >= ?) OR (checkinDate >= ? AND checkoutDate <= ?)) AND bookingID != ?",
-                          roomID, checkinDate, checkinDate, checkoutDate, checkoutDate, checkinDate, checkoutDate, bookingID)
+        room = db.execute("SELECT * FROM bookings WHERE roomID = ? AND ((checkInDate <= ? AND checkOutDate >= ?) OR (checkInDate <= ? AND checkOutDate >= ?) OR (checkInDate >= ? AND checkOutDate <= ?)) AND bookingID != ?",
+                          roomID, checkInDate, checkInDate, checkOutDate, checkOutDate, checkInDate, checkOutDate, bookingID)
         if room:
             flash("Room is not available for the selected dates")
             return redirect("/edit_booking")
 
         # Check if check-in date is before today
-        if checkinDateV < date.today():
+        if checkInDateV < date.today():
             flash("Check-in date should be today or later")
             return redirect("/edit_booking")
 
         # Check if check-in date is more than 1 year in the future
-        if checkinDateV > date.today().replace(year=date.today().year + 1):
+        if checkInDateV > date.today().replace(year=date.today().year + 1):
             flash("Check-in date should be within the next 1 year")
             return redirect("/edit_booking")
 
         # Update booking information using parameterized query
-        if db.execute("""UPDATE bookings SET guestID = ?, roomID = ?, checkinDate = ?, checkoutDate = ?, mealPlanID = ?, status = ? WHERE bookingID = ?""",
-                      guestID, roomID, checkinDate, checkoutDate, mealPlanID, status, bookingID):
+        if db.execute("""UPDATE bookings SET guestID = ?, roomID = ?, checkInDate = ?, checkOutDate = ?, mealPlanID = ?, statusID = ? WHERE bookingID = ?""",
+                      guestID, roomID, checkInDate, checkOutDate, mealPlanID, statusID, bookingID):
 
             # Check if the update was successful
             flash("Booking updated successfully")
@@ -439,7 +439,7 @@ def edit_booking():
     booking = db.execute(
         "SELECT * FROM bookings WHERE bookingID = ?", bookingID)
 
-    # Fetch the booking details, guests, rooms, meal plans, and status options
+    # Fetch the booking details, guests, rooms, meal plans, and statusID options
     booking = booking[0] if booking else None
     guests = db.execute("SELECT * FROM guests")
     rooms = db.execute(
@@ -463,8 +463,6 @@ def edit_hotel():
         email = request.form.get("email")
         statusID = request.form.get("status")
 
-        print(f"hotelID: {hotelID} - {type(hotelID)}, name: {name} - {type(name)}, address: {address} - {type(address)
-                                                                                                         }, phone: {phone} - {type(phone)}, email: {email} - {type(email)}, statusID: {statusID} - {type(statusID)}")
         # Update hotel information using parameterized query
         if db.execute("""UPDATE hotels SET name = ?, address = ?, phone = ?, email = ?, statusID = ? WHERE hotelID = ?""",
                       name, address, phone, email, statusID, hotelID):
@@ -560,7 +558,7 @@ def new_staff():
         email = request.form.get("email")
         hotelID = request.form.get("hotel")
         statusID = request.form.get("status")
-        manager = request.form.get("position")
+        positionID = request.form.get("position")
         dob = request.form.get("dateOfBirth")
         password = request.form.get("password")
         conPassword = request.form.get("confirmPassword")
@@ -575,8 +573,8 @@ def new_staff():
             flash("Passwords do not match")
             return redirect("/new_staff")
 
-        if db.execute("INSERT INTO staff_members (firstName, lastName, manager, dateOfBirth, phone, email, hotelID, status, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                      firstName, lastName, manager, dob, phone, email, hotelID, statusID, generate_password_hash(password, method='pbkdf2', salt_length=16)):
+        if db.execute("INSERT INTO staff_members (firstName, lastName, positionID, dateOfBirth, phone, email, hotelID, statusID, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                      firstName, lastName, positionID, dob, phone, email, hotelID, statusID, generate_password_hash(password, method='pbkdf2', salt_length=16)):
             flash("Staff added successfully")
         else:
             flash("Staff add failed")
@@ -608,7 +606,7 @@ def edit_staff():
         statusID = request.form.get("status")
 
         # Update staff information using parameterized query
-        if db.execute("""UPDATE staff_members SET firstName = ?, lastName = ?, phone = ?, email = ?, hotelID = ?, status = ? WHERE staffID = ?""",
+        if db.execute("""UPDATE staff_members SET firstName = ?, lastName = ?, phone = ?, email = ?, hotelID = ?, statusID = ? WHERE staffID = ?""",
                       firstName, lastName, phone, email, hotelID, statusID, staffID):
 
             # Check if the update was successful
@@ -620,7 +618,7 @@ def edit_staff():
 
     staffID = request.args.get("staffid")
     staff = db.execute(
-        "SELECT staff_members.*, position.name as position FROM staff_members INNER JOIN position ON position.id = staff_members.manager WHERE staffID = ?", staffID)
+        "SELECT staff_members.*, position.name as position FROM staff_members INNER JOIN position ON position.id = staff_members.positionID WHERE staffID = ?", staffID)
 
     # Fetch the staff details, hotels, and status options
     staff = staff[0] if staff else None
@@ -659,7 +657,7 @@ def login():
         # Remember which user has logged in
         session["user_id"] = rows[0]["staffID"]
         session["username"] = rows[0]["firstName"]
-        session["manager"] = rows[0]["manager"]
+        session["positionID"] = rows[0]["positionID"]
         session["hotelID"] = rows[0]["hotelID"]
 
         # Redirect user to home page
