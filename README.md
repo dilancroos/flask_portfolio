@@ -271,6 +271,32 @@ Website: [https://dilancroos.com](https://dilancroos.com)
 - Université Paris Cité & Learning Plannet Institute for getting EdX for the students.
 - CS50 team for doing a bang-up job.
 
+For the completion of the project I used the following resources:
+- https://flask.palletsprojects.com/en/3.0.x/
+- https://sqlite.org/index.html
+- https://www.sqlitetutorial.net
+- https://getbootstrap.com/docs/5.3/getting-started/introduction/
+- https://www.w3schools.com
+- https://stackoverflow.com
+- https://www.youtube.com
+- https://www.google.com
+- https://www.cs50.io
+- https://www.github.com
+
+Some inspiration for the hotel management system was taken from the following link:
+https://vertabelo.com/blog/data-model-for-hotel-management-system/
+
+The Country Codes and Names were taken from the following link:
+https://github.com/Imagin-io/country-nationality-list/blob/master/countries.sql
+
+Readme file was created using the following link:
+https://github.com/othneildrew/Best-README-Template
+
+I aslo used GitHub Copilot for some of the code snippets
+and ChatGPT for some debugging and code suggestions
+
+If I have missed any resources, please let me know and I will add them to the list
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
