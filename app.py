@@ -133,7 +133,7 @@ def new_room():
         roomNo = request.form.get("roomNo")
         statusID = request.form.get("statusID")
 
-        if db.execute("INSERT INTO rooms (hotelID, typeID, roomNo, status) VALUES (?, ?, ?, ?)",
+        if db.execute("INSERT INTO rooms (hotelID, typeID, roomNo, statusID) VALUES (?, ?, ?, ?)",
                       hotelID, roomTypeID, roomNo, statusID):
             flash("Room added successfully")
         else:
@@ -522,12 +522,11 @@ def edit_roomType():
         name = request.form.get("name")
         capacity = request.form.get("capacity")
         description = request.form.get("description")
-        price = request.form.get("price")
         statusID = request.form.get("status")
 
         # Update room type information using parameterized query
         if db.execute("""UPDATE roomTypes SET name = ?, capacity = ?, description = ?, statusID = ? WHERE typeID = ?""",
-                      name, capacity, description, price, statusID, typeID):
+                      name, capacity, description, statusID, typeID):
 
             # Check if the update was successful
             flash("Room type updated successfully")
@@ -705,12 +704,12 @@ def changePassword():
 
         # Query database for username
         rows = db.execute(
-            "SELECT * FROM users WHERE id = ?", session["user_id"]
+            "SELECT * FROM staff_members WHERE staffID = ?", session["user_id"]
         )
 
         # Check old password matches logged in user
-        if check_password_hash(rows[0]["hash"], request.form.get("oldpassword")):
-            db.execute("UPDATE users SET hash = ? WHERE id = ?", generate_password_hash(
+        if check_password_hash(rows[0]["password"], request.form.get("oldpassword")):
+            db.execute("UPDATE staff_members SET password = ? WHERE staffID = ?", generate_password_hash(
                 request.form.get("password"), method='pbkdf2', salt_length=16), session["user_id"])
 
             msg = True
