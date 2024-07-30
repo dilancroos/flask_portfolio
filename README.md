@@ -146,8 +146,25 @@ These improvements will help further streamline operations and enhance the guest
 
 ### SQL Schema
 
+  <img src="static/key.jpg" alt="key, primary key" width="25" height="25">- Primary Key
+  <img src="static/fk.jpg" alt="foreign key" width="25" height="25">- Foreign Key
+  <img src="static/Null.jpg" alt="key, primary key" width="18" height="18"> - Null Allowed
 <!-- Add image -->
+<img src="static/schema.jpg" alt="DB Schema">
 
+#### Tables
+
+1. hotels
+2. roomTypes
+3. staff_members
+4. mealPlans
+5. bookings
+6. rooms
+7. guests
+8. identityDocs
+9. countries
+10. position
+11. status
 
 <!-- GETTING STARTED -->
 
@@ -219,7 +236,19 @@ To get a local copy up and run the application, follow these simple steps.
       $ sqlite3 hotel.db
     ```
 
+4. Use default username and password to enter
 
+  - Admin: (for Hotel M)
+    ```
+    Username: AdminM
+    password: twrhotels
+    ```
+  - Admin: (for Hotel N)
+    ```
+    Username: AdminN
+    password: twrhotels
+    ```
+  If needed seed instructions can be found in sql.txt file
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -230,6 +259,8 @@ To get a local copy up and run the application, follow these simple steps.
 Dilan Croos - antondilan.crooswarnakulasuriya@cri-paris.org.com
 
 Project Link: [https://github.com/dilancroos/cs50_project](https://github.com/dilancroos/cs50_project)
+
+Website: [https://dilancroos.com](https://dilancroos.com)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
