@@ -5,12 +5,12 @@
 [![LinkedIn][linkedin-shield]][linkedin-url1]
 
 <!-- PROJECT LOGO -->
-# Hotel Guest Information System
+# Hotel Guest Information Management System (HGIMS)
 #### Video Demo:  <URL HERE>
 #### Description:
 <br />
 <div align="center">
-  <h2 align="center">Hotel Guest Information System</h2>
+  <h2 align="center">Hotel Guest Information Management System (HGIMS)</h2>
   <h5 align="center">Université Paris Cité - Paris - France</h5>
   <h6 aligh="center">Colombo, Sri Lanka</h6>
 
