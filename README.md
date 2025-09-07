@@ -17,13 +17,13 @@
   <p align="center">
     Anton Dilan Croos Warnakulasuriya
     <br />
-    <a href="https://github.com/dilancroos/cs50_project"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/dilancroos/flask_portfolio"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     ·
-    <a href="https://github.com/dilancroos/cs50_project/issues">Report Bug</a>
+    <a href="https://github.com/dilancroos/flask_portfolio/issues">Report Bug</a>
     ·
-    <a href="https://github.com/dilancroos/cs50_project/issues">Request Feature</a>
+    <a href="https://github.com/dilancroos/flask_portfolio/issues">Request Feature</a>
   </p>
 </div>
 
@@ -184,13 +184,13 @@ To get a local copy up and run the application, follow these simple steps.
 1. Clone the repo
 
     ```sh
-      $ git clone git@github.com:dilancroos/cs50_project.git
+      $ git clone git@github.com:dilancroos/flask_portfolio.git
     ```
 
 2. Change to the working directory
 
     ```sh
-      $ cd cs50_project
+      $ cd flask_portfolio
     ```
 
 3. Create a virtual environment .venv
@@ -256,9 +256,9 @@ To get a local copy up and run the application, follow these simple steps.
 
 ## Contact
 
-Dilan Croos - antondilan.crooswarnakulasuriya@cri-paris.org.com
+Dilan Croos - dilancroos@outlook.com, mail@dilancroos.com
 
-Project Link: [https://github.com/dilancroos/cs50_project](https://github.com/dilancroos/cs50_project)
+Project Link: [https://github.com/dilancroos/flask_portfolio](https://github.com/dilancroos/flask_portfolio)
 
 Website: [https://dilancroos.com](https://dilancroos.com)
 
@@ -302,16 +302,16 @@ If I have missed any resources, please let me know and I will add them to the li
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/dilancroos/cs50_project.svg?style=for-the-badge
-[contributors-url]: https://github.com/dilancroos/cs50_project/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/dilancroos/cs50_project.svg?style=for-the-badge
-[forks-url]: https://github.com/dilancroos/cs50_project/network/members
-[stars-shield]: https://img.shields.io/github/stars/dilancroos/cs50_project.svg?style=for-the-badge
-[stars-url]: https://github.com/dilancroos/cs50_project/stargazers
-[issues-shield]: https://img.shields.io/github/issues/dilancroos/cs50_project.svg?style=for-the-badge
-[issues-url]: https://github.com/dilancroos/cs50_project/issues
-[license-shield]: https://img.shields.io/github/license/dilancroos/cs50_project.svg?style=for-the-badge
-[license-url]: https://github.com/dilancroos/cs50_project/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/dilancroos/flask_portfolio.svg?style=for-the-badge
+[contributors-url]: https://github.com/dilancroos/flask_portfolio/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/dilancroos/flask_portfolio.svg?style=for-the-badge
+[forks-url]: https://github.com/dilancroos/flask_portfolio/network/members
+[stars-shield]: https://img.shields.io/github/stars/dilancroos/flask_portfolio.svg?style=for-the-badge
+[stars-url]: https://github.com/dilancroos/flask_portfolio/stargazers
+[issues-shield]: https://img.shields.io/github/issues/dilancroos/flask_portfolio.svg?style=for-the-badge
+[issues-url]: https://github.com/dilancroos/flask_portfolio/issues
+[license-shield]: https://img.shields.io/github/license/dilancroos/flask_portfolio.svg?style=for-the-badge
+[license-url]: https://github.com/dilancroos/flask_portfolio/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url1]: https://linkedin.com/in/antondilancrooswarnakulasuriya
 [product-screenshot]: images/screenshot.png
